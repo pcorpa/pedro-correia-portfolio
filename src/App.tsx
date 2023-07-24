@@ -1,47 +1,107 @@
 import React from "react";
-import logo from "./logo.svg";
+import profilePicturePNG from "./assets/IMG_2714.png";
+
 import "./App.css";
 
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Slider from "@mui/material/Slider";
-import VolumeDown from "@mui/icons-material/VolumeDown";
-import VolumeUp from "@mui/icons-material/VolumeUp";
+import Container from "@mui/material/Container";
+
+import Typography from "@mui/material/Typography";
+import {
+  AppBar,
+  Card,
+  Menu,
+  MenuItem,
+  Paper,
+  Stack,
+  Toolbar,
+} from "@mui/material";
+
+const pages = ["About", "Contact"];
+const settings = ["About", "Account", "Dashboard", "Logout"];
 
 function App() {
-  const [value, setValue] = React.useState<number>(30);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number);
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
   };
 
-  console.log(value);
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
-        <Box sx={{ width: 200 }}>
-          <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-            <VolumeDown />
-            <Slider aria-label="Volume" value={value} onChange={handleChange} />
-            <VolumeUp />
-          </Stack>
-          <Slider disabled defaultValue={30} aria-label="Disabled slider" />
-        </Box>
-      </header>
-    </div>
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  return (
+    <Box sx={{ height: "4000px" }}>
+      <AppBar position="static">
+        <Container maxWidth="xl" className="bg-black">
+          <Toolbar disableGutters className="bg-black justify-between">
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              className="text-white font-bold pr-10"
+            >
+              Pedro Correia Pastorini
+            </Typography>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    className="bg-slate-500"
+                  >
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Stack className="mt-4">
+        <Card sx={{ backgroundColor: "black" }}>
+          <img
+            src={profilePicturePNG}
+            alt={"prifile_picture"}
+            className="h-2/3 absolute self-start rounded-full"
+          />
+          <Paper elevation={3} />
+        </Card>
+      </Stack>
+    </Box>
   );
 }
 
